@@ -14,7 +14,12 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const whitelist = ['http://localhost:8080', 'http://127.0.0.1:5432'];
+const whitelist = [
+  'http://localhost:8080',
+  'http://127.0.0.1:5432',
+  'http://localhost:3000',
+  'http://localhost:3000/UpdateProduct',
+];
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {

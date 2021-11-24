@@ -1,16 +1,21 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const CATEGORY_TABLE = 'categories';
+const FAVORITE_TABLE = 'favorites';
 
-const CategorySchema = {
+const FavoriteSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER,
   },
-  name: {
-    type: DataTypes.STRING,
+  categoryId: {
+    type: DataTypes.INTEGER,
+    unique: true,
+    allowNull: false,
+  },
+  productId: {
+    type: DataTypes.INTEGER,
     unique: true,
     allowNull: false,
   },
@@ -22,22 +27,17 @@ const CategorySchema = {
   },
 };
 
-class Category extends Model {
-  static associate(models) {
-    this.hasMany(models.Line, {
-      as: 'lines',
-      foreignKey: 'categoryId',
-    });
-  }
+class Favorite extends Model {
+  static associate(models) {}
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: CATEGORY_TABLE,
-      modelName: 'Category',
+      tableName: FAVORITE_TABLE,
+      modelName: 'Favorite',
       timestamps: false,
     };
   }
 }
 
-module.exports = { CATEGORY_TABLE, CategorySchema, Category };
+module.exports = { FAVORITE_TABLE, FavoriteSchema, Favorite };

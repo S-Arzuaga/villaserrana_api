@@ -1,20 +1,20 @@
 const express = require('express');
 
-const CustomerService = require('./../services/customer.service');
-const validatorHandler = require('./../middlewares/validator.handler');
+const FavoriteService = require('../services/favorite.service');
+const validatorHandler = require('../middlewares/validator.handler');
 const {
-  createCustomerSchema,
-  updateCustomerSchema,
-  getCustomerSchema,
-} = require('./../schemas/customers.schema');
+  createFavoriteSchema,
+  updateFavoriteSchema,
+  getFavoriteSchema,
+} = require('../schemas/favorite.schema');
 
 const router = express.Router();
-const service = new CustomerService();
+const service = new FavoriteService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const categories = await service.find();
-    res.json(categories);
+    const favorites = await service.find();
+    res.json(favorites);
   } catch (error) {
     next(error);
   }
@@ -22,12 +22,12 @@ router.get('/', async (req, res, next) => {
 
 router.get(
   '/:id',
-  validatorHandler(getCustomerSchema, 'params'),
+  validatorHandler(getFavoriteSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
-      const category = await service.findOne(id);
-      res.json(category);
+      const favorite = await service.findOne(id);
+      res.json(favorite);
     } catch (error) {
       next(error);
     }
@@ -36,12 +36,12 @@ router.get(
 
 router.post(
   '/',
-  validatorHandler(createCustomerSchema, 'body'),
+  validatorHandler(createFavoriteSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
-      const newCategory = await service.create(body);
-      res.status(201).json(newCategory);
+      const newFavorite = await service.create(body);
+      res.status(201).json(newFavorite);
     } catch (error) {
       next(error);
     }
@@ -50,14 +50,14 @@ router.post(
 
 router.patch(
   '/:id',
-  validatorHandler(getCustomerSchema, 'params'),
-  validatorHandler(updateCustomerSchema, 'body'),
+  validatorHandler(getFavoriteSchema, 'params'),
+  validatorHandler(updateFavoriteSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const category = await service.update(id, body);
-      res.json(category);
+      const favorite = await service.update(id, body);
+      res.json(favorite);
     } catch (error) {
       next(error);
     }
@@ -66,7 +66,7 @@ router.patch(
 
 router.delete(
   '/:id',
-  validatorHandler(getCustomerSchema, 'params'),
+  validatorHandler(getFavoriteSchema, 'params'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
